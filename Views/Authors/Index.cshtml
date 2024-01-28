@@ -1,0 +1,66 @@
+﻿@model List<Author>
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    ViewData["Title"] = "Books Authors";
+}
+
+
+<div class="bar">
+    <form asp-action="Search" asp-controller="Authors" method="get">
+        <label for="searchKey">Author Name</label>
+        <input type="text" name="searchKey" />
+        <button class="btn btn-primary"  type="submit">Search</button>
+
+    </form>
+
+    @if (HttpContextAccessor.HttpContext.Session.GetString("name") != null)
+    {
+        <a class="btn btn-primary" asp-action="Add" asp-controller="Authors">Add an Author</a>
+    }
+</div>
+
+
+
+<table class="table table-striped table-dark">
+    <thead>
+        <tr>
+            <th>Author ID</th>
+            <th>Name</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var auhtor in Model)
+        {
+            <tr>
+                <td>@auhtor.AuthorId</td>
+                <td>@auhtor.Name</td>
+                @if (HttpContextAccessor.HttpContext.Session.GetString("name") != null)
+                {
+                    <td>
+                        <a asp-action="Details" asp-route-id="@auhtor.AuthorId" asp-controller="Authors">
+                            Details
+                        </a>
+                        &nbsp;
+                        <a asp-action="Edit" asp-route-id="@auhtor.AuthorId" asp-controller="Authors">
+                            Edit
+                        </a>
+                        &nbsp;
+                        <a asp-action="Delete" asp-route-id="@auhtor.AuthorId" asp-controller="Authors">
+                            Delete
+                        </a>
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        <a asp-action="Details" asp-route-id="@auhtor.AuthorId" asp-controller="Authors">
+                            Details
+                        </a>
+                        </td>
+                }
+
+            </tr>
+        }
+    </tbody>
+</table>

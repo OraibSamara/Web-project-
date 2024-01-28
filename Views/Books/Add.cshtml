@@ -1,0 +1,34 @@
+﻿@model Book
+@{
+    ViewData["Title"] = "Add a Book";
+}
+
+
+<form class="form-width" asp-action="Add" asp-controller="Books" method="post">
+    
+    <div class="form-group">
+        <label asp-for="Name">Book Name</label>
+        <input class="form-control" asp-for="Name" type="text" name="Name" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Edition">Book Edition</label>
+        <input class="form-control" asp-for="Edition" type="text" name="Edition" />
+
+    </div>
+    <div class="form-group">
+        <label asp-for="AuthorId"> Book Author </label>
+        <select class="form-control" asp-for="AuthorId">
+            <option value="" hidden disabled selected>Plesaes Select an Author</option>
+            @foreach (Author author in ViewBag.Authors)
+            {
+                <option value="@author.AuthorId">@author.Name</option>
+            }
+        </select>
+    </div>
+
+    <br />
+    <button type="submit" class="btn btn-primary">Add Book</button>
+    <br />
+    <br />
+    <a class="btn btn-danger" asp-controller="Books" asp-action="Index">Cancel</a>
+</form>

@@ -1,0 +1,65 @@
+﻿@model List<Book>
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    ViewData["Title"] = "Library Books";
+}
+
+<div class="bar" >
+
+    <form asp-action="Search" asp-controller="Books" method="get">
+        <label for="searchKey">Book Name</label>
+        <input type="text" name="searchKey" />
+        <button class="btn btn-primary" type="submit">Search</button>
+
+    </form>
+
+    @if (HttpContextAccessor.HttpContext.Session.GetString("name") != null)
+    {
+        <a class="btn btn-primary" asp-action="Add" asp-controller="Books">Add a Book</a>
+    }
+
+</div>
+
+
+<table class="table table-striped table-dark ">
+    <thead>
+        <tr>
+            <th>Book ID</th>
+            <th>Name</th>
+            <th>Edition</th>
+            <th>Author</th>
+            @if (HttpContextAccessor.HttpContext.Session.GetString("name") != null)
+            {
+                <th></th>
+            }
+        </tr>
+    </thead>
+    <tbody >
+        @foreach (var book in Model)
+        {
+            <tr>
+                <td>@book.BookId</td>
+                <td>@book.Name</td>
+                <td>@book.Edition</td>
+                <td>@book.Author.Name</td>
+                @if (HttpContextAccessor.HttpContext.Session.GetString("name") != null)
+                {
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@book.BookId" asp-controller="Books">
+                        Edit
+                    </a>
+                    &nbsp;
+                    <a asp-action="Delete" asp-route-id="@book.BookId" asp-controller="Books">
+                        Delete
+                    </a>
+                </td>
+                }
+            </tr>
+        }
+    </tbod>
+</table>
+
+
+
+
+
